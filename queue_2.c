@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) //first - receiver_id, second - sender_id
   int   len   = 0, maxlen = 0;
   
   if (argc != 3) {
-	  printf("A few params\n");
+    printf("A few params\n");
     exit(EXIT_FAILURE);
   }
 
@@ -40,12 +40,11 @@ int main(int argc, char* argv[]) //first - receiver_id, second - sender_id
 
   key = ftok(pathname, 0);
   if (key == -1) {
-	  printf("something wrong in keygen\n");
+    printf("something wrong in keygen\n");
   }
 
   // Если очередь уже существует, то ничего не делаем  
-  if ((msqid = msgget(key, 0666 | IPC_CREAT)) < 0)
-  {
+  if ((msqid = msgget(key, 0666 | IPC_CREAT)) < 0) {
     printf("Something wrong in msgget\n");
   }
     
@@ -55,14 +54,14 @@ int main(int argc, char* argv[]) //first - receiver_id, second - sender_id
  
   // второй процесс ожидает ввода с клавиатуры и отправляет сообщения,
   // встретив символ перевода строки 
-  if (chpid < 0){
-	  printf("Error in children");
+  if (chpid < 0) {
+    printf("Error in children");
   }
   else if (chpid == 0) {
-	  receiver_thread(key, receiver_id);
+    receiver_thread(key, receiver_id);
   }
   else {
-	  sender_thread(key, sender_id, receiver_id);
+    sender_thread(key, sender_id, receiver_id);
   }
   return 0;  
 }
@@ -79,21 +78,21 @@ void sender_thread(key_t key, long sender_id, long receiver_id)
 
   mymsgbuf mybuf = {};
   while(1) {
-	  char* line = NULL;
-	  size_t len_line = 0;
-
-  	getline(&line, &len_line, stdin);
+    char* line = NULL;
+    size_t len_line = 0;
+	  
+    getline(&line, &len_line, stdin);
     mybuf.mtype = sender_id;
     mybuf.sender_id = receiver_id;
     strcpy(mybuf.mtext, line);
-	  len = strlen(mybuf.mtext) + 1 + sizeof(long);
+    len = strlen(mybuf.mtext) + 1 + sizeof(long);
 
-	  if (msgsnd(msqid, (struct msgbuf*) &mybuf, len, 0) < 0) {
-		  printf("Can\'t send message to queue\n");
+    if (msgsnd(msqid, (struct msgbuf*) &mybuf, len, 0) < 0) {
+      printf("Can\'t send message to queue\n");
       msgctl(msqid, IPC_RMID, (struct msqid_ds *) NULL);
       exit(EXIT_FAILURE);
     }
-	  free(line);
+    free(line);
   } 
 }
 
@@ -112,8 +111,7 @@ void receiver_thread(key_t key, long receiver_id)
   while (1) {
     maxlen = MESSAGE_LENGTH + sizeof(long);
     
-    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, receiver_id, 0)) < 0)
-    {
+    if (( len = msgrcv(msqid, (struct msgbuf *) &mybuf, maxlen, receiver_id, 0)) < 0) {
       printf("Can\'t receive message from queue\n");
       exit(-1);
     }
