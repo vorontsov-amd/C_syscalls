@@ -28,18 +28,17 @@ int main(int argc, char ** argv) //argv[1] = path
 	addr.sun_family = AF_UNIX;
 	strcpy(addr.sun_path, SOCK_NAME);
 	
-    char msg[10] = {};
-    while (1) {
-        int file_count = getFileCount(argv[1]);
-        snprintf(msg, 10, "%d", file_count);
+	char msg[10] = {};
+	while (1) {
+		int file_count = getFileCount(argv[1]);
+		snprintf(msg, 10, "%d", file_count);
 
-        if (sendto(sock, msg, strlen(msg), 0, (struct sockaddr *) &addr, SUN_LEN(&addr)) == -1) {
-            fprintf(stderr, "sendto() error\n");
-            return 1;
-        }
-
-        sleep(5);
-    }
+		if (sendto(sock, msg, strlen(msg), 0, (struct sockaddr *) &addr, SUN_LEN(&addr)) == -1) {
+		    fprintf(stderr, "sendto() error\n");
+		    return 1;
+		}
+        	sleep(5);
+    	}
 
 	close(sock);
 	return 0;
