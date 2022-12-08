@@ -48,16 +48,16 @@ int main(int argc, char ** argv)
 	}
 	
 	strcpy(buf, "GET /");
-    strcat(buf, " HTTP/1.1\nHost: ");
-    strcat(buf, argv[1]);
-    strcat(buf, "\n\n");
+	strcat(buf, " HTTP/1.1\nHost: ");
+	strcat(buf, argv[1]);
+	strcat(buf, "\n\n");
 	
 	write(sock, buf, strlen(buf));
 	
 	int count = 0;
 	while ((count = read(sock, buf, BUF_LEN)) > 0) {
 		write(1, buf, count);
-    }
+    	}
 
 	close(sock);
 	free(buf);
