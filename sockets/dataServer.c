@@ -45,13 +45,13 @@ int main()
 
 		buf[count] = '\0';
 		
-        if (strcmp(last_buf, buf) == 0) {
-            puts("no changes");
-        }
-        else {
-            printf("file count = %s\n", buf);
-            strncpy(last_buf, buf, BUF_LEN);
-        }
+		if (strcmp(last_buf, buf) == 0) {
+		    puts("no changes");
+		}
+		else {
+		    printf("file count = %s\n", buf);
+		    strncpy(last_buf, buf, BUF_LEN);
+		}
 
 		if (!strcmp(buf, "exit")) break;
 	}
