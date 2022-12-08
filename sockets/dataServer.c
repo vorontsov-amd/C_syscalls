@@ -22,7 +22,7 @@ int main()
 	char * buf      = (char *)malloc(BUF_LEN);
 	char * last_buf = (char *)malloc(BUF_LEN);
     
-    if (buf == NULL || last_buf == NULL) {
+    	if (buf == NULL || last_buf == NULL) {
 		fprintf (stderr, "malloc() error\n");
 		return 1;
 	}
