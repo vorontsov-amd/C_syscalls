@@ -24,7 +24,7 @@ int main (int argc, char ** argv)
 
 	saddr.sun_family = AF_UNIX;
 	/* Присвоить массив в структуре нельзя, но можно скопировать содержимое.*/ 
-    strcpy(saddr.sun_path, argv[1]);
+    	strcpy(saddr.sun_path, argv[1]);
 
 	if (bind(sock, (struct sockaddr *) &saddr,	SUN_LEN(&saddr)) == -1) 
 	{
